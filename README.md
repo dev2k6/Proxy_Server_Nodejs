@@ -1,58 +1,76 @@
-# Node.js Forward Proxy Server
+# 🌐 Proxy Server Node.js
 
-A lightweight, cross-platform Forward HTTP/HTTPS Proxy server written in Node.js using `proxy-chain`.
+> A lightweight Forward HTTP/HTTPS Proxy Server with built-in authentication and automatic firewall configuration — by **Thai Nguyen IT**.
 
-It supports Basic Authentication (Username/Password) and automatically attempts to configure system firewalls (Windows, Linux, macOS) to open the proxy port for incoming connections, making it easy to deploy on VPS or share with others over a network.
+## ✨ Features
 
-## Features
+- 🔀 HTTP & HTTPS tunneling proxy (CONNECT method)
+- 🔐 Basic Authentication (Username / Password)
+- 🛡️ Auto firewall port opening:
+  - **Windows** — `netsh advfirewall`
+  - **Linux** — `ufw` / `iptables` / `firewall-cmd`
+  - **macOS** — System popup prompt
+- ⚡ Ultra lightweight — single dependency on [`proxy-chain`](https://www.npmjs.com/package/proxy-chain)
 
-- **HTTP/HTTPS Proxy**: Forwards HTTP and HTTPS tunneling requests.
-- **Basic Authentication**: Built-in credential checks to restrict access.
-- **Cross-Platform Firewall Auto-config**: Automatically attempts to open ports dynamically on:
-  - Windows (`netsh advfirewall`)
-  - Linux (`ufw`, `iptables`, `firewall-cmd`)
-  - macOS (Triggers system popup)
-- **Extremely Lightweight**: Built on top of the robust `proxy-chain` library without heavy dependencies.
+## 📋 Prerequisites
 
-## Prerequisites
+| Component | Version              |
+| --------- | -------------------- |
+| Node.js   | ≥ 14.x               |
+| npm       | Bundled with Node.js |
 
-- **Node.js**: v14 or newer.
-- **Administrative Privileges**: Recommended to run the server as Administrator (Windows) or Root (Linux) to allow the automatic firewall configuration steps to succeed.
+> **Note:** Run with **Administrator** (Windows) or **root/sudo** (Linux) privileges for automatic firewall configuration to succeed.
 
-## Installation
-
-1. Clone or download this project.
-2. Install dependencies:
+## 🚀 Installation & Quick Start
 
 ```bash
+# 1. Clone the repository
+git clone https://github.com/dev2k6/Proxy_Server_Nodejs.git
+cd Proxy_Server_Nodejs
+
+# 2. Install dependencies
 npm install
+
+# 3. Start the proxy server
+node index.js
 ```
 
-## Configuration
+## ⚙️ Configuration
 
-Editing proxy parameters can be done entirely at the top of the `index.js` file:
+Edit the configuration block at the top of `index.js`:
 
 ```javascript
 // ================= CONFIGURATION =================
 const PORT = 10888; // Proxy server port
-const USERNAME = "thainguyen"; // Username
-const PASSWORD = "password123"; // Password
+const USERNAME = "thainguyen"; // Auth username
+const PASSWORD = "your_pass"; // Auth password (change this!)
 // ============================================
 ```
 
-_(Make sure to change the credentials to your own secure username & password)._
+> ⚠️ **Important:** Always change `USERNAME` and `PASSWORD` to your own secure credentials before deploying to a server.
 
-## Usage
+## 📡 Connecting to the Proxy
 
-Start the proxy server using Node.js:
+Once the server is running (e.g., on a VPS with IP `203.0.113.5`), configure your client:
 
-```bash
-node index.js
-```
+| Field    | Value             |
+| -------- | ----------------- |
+| Host     | `YOUR_VPS_IP`     |
+| Port     | `10888`           |
+| Username | _(as configured)_ |
+| Password | _(as configured)_ |
 
-The console will display log messages indicating the successful startup and whether the firewall was successfully updated.
+### Connection Methods
 
-**Example log output:**
+- **Browser Extension:** Use [Proxy SwitchyOmega](https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbodaiddknhamobkghodd)
+- **System Settings:** Configure proxy under Settings → Network → Proxy
+- **Terminal / CLI:**
+  ```bash
+  export http_proxy=http://username:password@YOUR_IP:10888
+  export https_proxy=http://username:password@YOUR_IP:10888
+  ```
+
+## 📝 Example Log Output
 
 ```
 [INFO] Forward Proxy (Standard HTTP/HTTPS) is running on port 10888
@@ -61,17 +79,21 @@ The console will display log messages indicating the successful startup and whet
 [INFO] Successfully opened port 10888 publicly on Windows Firewall.
 ```
 
-## Connecting to the Proxy
+## 📁 Project Structure
 
-Once the server is running on a machine (e.g., your VPS with IP `203.0.113.5`), you can connect to it from another machine/browser:
+```
+Proxy_Server_Nodejs/
+├── index.js        # Entry point — all proxy server logic
+├── package.json    # Project metadata & dependencies
+├── node_modules/   # Installed packages (auto-generated)
+└── README.md       # Documentation
+```
 
-- **Host / IP**: `203.0.113.5`
-- **Port**: `10888`
-- **Username**: `thainguyen`
-- **Password**: `password123`
+## 🛠️ Tech Stack
 
-You can use standard OS proxy settings, or browser extensions like [Proxy SwitchyOmega](https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbodaiddknhamobkghodd) to easily set this up.
+- **Runtime:** [Node.js](https://nodejs.org/)
+- **Core Library:** [proxy-chain](https://www.npmjs.com/package/proxy-chain) v2.7.1
 
-## License
+## 📄 License
 
-ISC
+ISC © [Thai Nguyen IT](https://github.com/dev2k6)
